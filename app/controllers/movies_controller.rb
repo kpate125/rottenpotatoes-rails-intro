@@ -11,10 +11,50 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
     @movies = Movie.all
-    @all_ratings = ['foo']
-  end
+    
+    @ratings = params[:ratings] || session[:ratings] || [] # if no params[:ratings] then assign empty array
+    
+   
+    
+    @ll_ratings = Movie.ratings
+    
+    if params[:ratings].present?
+      
+      puts @filtered_ratings
+      puts "sample text"
+      @movies = @movies.where(rating: @ratings.keys) 
+      session[:ratings] = params[:ratings]
+     
+    end
+    
+    @title_css = " "
+    @release_date_css = " "
+    
+    @sortby = params[:sort] || session[:sort] || ""
+      
+      if @sortby == "title"
+        @movies = @movies.order(@sortby)
+        session[:sort] = "title"
+        @sort = "title"
+        @title_css = "hilite"
+      
+      elsif @sortby == "release_date"
+        @movies = @movies.order(@sortby)
+        @sort = "release_date"
+        session[:sort] = "release_date"
+        @release_date_css = "hilite"
+      end
+      
+      if (!params.has_key?(:ratings) && session[:ratings].present? ) || (!params.has_key?(:sortby) && session[:sortby].present?)
+        flash.keep
+        redirect_to movies_path(:sort => session[:sortby], :ratings => session[:ratings])
+      end
 
+     
+  end
+  
   def new
     # default: render 'new' template
   end
