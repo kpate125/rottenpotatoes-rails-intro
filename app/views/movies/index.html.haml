@@ -1,13 +1,29 @@
 -#  This file is app/views/movies/index.html.haml
 %h1 All Movies
 
+= form_tag movies_path, :method => :get, :id => :ratings_form do
+  = hidden_field_tag 'sort', @sort
+  Include:
+  - @ll_ratings.each do |rating|
+    = rating
+    = check_box_tag "ratings[#{rating}]", 1, if params[:ratings]; params[:ratings].has_key?("#{rating}") else; true end
+  = submit_tag 'Refresh', :id => :ratings_submit
+  
+%p
+  = @filtered_ratings
+  
+
 %table#movies
   %thead
     %tr
-      %th= link_to "Movie Title", movies_path
+      %th#title_header{:class => @title_css}
+        = link_to "Movie Title", movies_path(:sort => "title"), :id => "title_header"
       %th Rating
-      %th= link_to "Release Date", movies_path
+      %th#release_date_header{:class => @release_date_css} 
+        = link_to "Release Date", movies_path(:sort => "release_date"), :id => "release_date_header"
+      
       %th More Info
+      
   %tbody
     - @movies.each do |movie|
       %tr
@@ -19,9 +35,5 @@
 
 = link_to 'Add new movie', new_movie_path
 
-= form_tag movies_path, :method => :get do
-  Include:
-  - @all_ratings.each do |rating|
-    = rating
-    = check_box_tag "ratings[#{rating}]"
-  = submit_tag 'Refresh'
+
+  
