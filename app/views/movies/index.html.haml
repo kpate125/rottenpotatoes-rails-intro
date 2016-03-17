@@ -12,7 +12,6 @@
 %p
   = @filtered_ratings
   
-
 %table#movies
   %thead
     %tr
@@ -23,16 +22,12 @@
         = link_to "Release Date", movies_path(:sort => "release_date"), :id => "release_date_header"
       
       %th More Info
-      
-%tbody
-  - @movies.each do |movie|
-    %tr
-      %td= movie.title 
-      %td= movie.rating
-      %td= movie.release_date
-      %td= link_to "More about #{movie.title}", movie_path(movie)
+  %tbody
+    - @movies.each do |movie|
+      %tr
+        %td= movie.title 
+        %td= movie.rating
+        %td= movie.release_date
+        %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path
-
-
-  
