@@ -23,6 +23,8 @@ class MoviesController < ApplicationController
     
     @ll_ratings = Movie.ratings
     
+    
+    
     if params[:ratings].present?
       
       puts @filtered_ratings
