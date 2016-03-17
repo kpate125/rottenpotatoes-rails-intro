@@ -11,13 +11,10 @@ class MoviesController < ApplicationController
   end
 
   def index
-    # session.clear
-    # session.delete(:ratings)
-    # session.delete(:sortby)
-    #= check_box_tag "ratings[#{rating}]", 1, if params[:ratings]; params[:ratings].include?(rating); else true end
+ 
     @movies = Movie.all
     
-    @ratings = params[:ratings] || session[:ratings] || [] # if no params[:ratings] then assign empty array
+    @ratings = params[:ratings] || session[:ratings] || [] 
     
    
     
@@ -57,15 +54,6 @@ class MoviesController < ApplicationController
         redirect_to movies_path(:sort => session[:sortby], :ratings => session[:ratings])
       end
       
-      # if (params[:sortby] != @sortby) || (params[:ratings] != @rating)
-      #   flash.keep
-      #   redirect_to movies_path :sortby => @sortby, :ratings => @rating and return
-      # end
-      
-      # if !params.has_key?(:ratings) || !params.has_key?(:sortby)
-      # flash.keep
-      #   redirect_to movies_path(:sort => session[:sortby], :ratings => session[:ratings])
-      # end
      
   end
   
